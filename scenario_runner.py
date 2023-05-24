@@ -227,6 +227,8 @@ class ScenarioRunner(object):
                     if not ego_vehicle_found:
                         ego_vehicle_missing = True
                         break
+                if self._shutdown_requested:
+                    return
 
             for i, _ in enumerate(self.ego_vehicles):
                 self.ego_vehicles[i].set_transform(ego_vehicles[i].transform)
