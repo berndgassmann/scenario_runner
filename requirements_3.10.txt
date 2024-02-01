@@ -1,0 +1,12 @@
+py-trees==0.8.3
+networkx==3.2.1
+Shapely==1.7.1
+psutil
+xmlschema==1.0.18
+ephem
+tabulate
+opencv-python==3.4.18.65
+numpy
+matplotlib
+six
+simple-watchdog-timer
