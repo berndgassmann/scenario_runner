@@ -23,6 +23,7 @@ from datetime import datetime
 from distutils.version import LooseVersion
 import importlib
 import inspect
+import logging
 import os
 import signal
 import sys
@@ -83,6 +84,11 @@ class ScenarioRunner(object):
 
         if args.timeout:
             self.client_timeout = float(args.timeout)
+
+        log_level = logging.DEBUG if args.debug else logging.INFO
+        logging.basicConfig(format='%(levelname)s: %(message)s', level=log_level)
+
+        logging.info('ScenarioRunner starting')
 
         # First of all, we need to create the client that will send the requests
         # to the simulator. Here we'll assume the simulator is accepting
@@ -314,9 +320,11 @@ class ScenarioRunner(object):
                 while not ego_vehicle_found and not self._shutdown_requested:
                     vehicles = self.client.get_world().get_actors().filter('vehicle.*')
                     for ego_vehicle in ego_vehicles:
+                        print("Checking for ego vehicle {}".format(ego_vehicle.rolename))
                         ego_vehicle_found = False
                         for vehicle in vehicles:
                             if vehicle.attributes['role_name'] == ego_vehicle.rolename:
+                                print("Found ego vehicle {}".format(ego_vehicle.rolename))
                                 ego_vehicle_found = True
                                 break
                         if not ego_vehicle_found:
